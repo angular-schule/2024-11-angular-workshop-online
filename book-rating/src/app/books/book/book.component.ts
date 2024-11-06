@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Book } from '../shared/book';
 
 @Component({
@@ -13,4 +13,17 @@ export class BookComponent {
   // von oben nach unten
   // mit `input()` Ergebnis als Signal
   book = input.required<Book>();
+
+  // Output: hier fließen Daten zur Elternkomponente hinaus
+  // von unten nach oben
+  rateUp = output<Book>();
+  rateDown = output<Book>();
+
+  doRateUp() {
+    this.rateUp.emit(this.book());
+  }
+
+  doRateDown() {
+    this.rateDown.emit(this.book());
+  }
 }
