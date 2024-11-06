@@ -1,2 +1,4 @@
-<p>dashboard works!</p>
-
+@for (b of books(); track b.isbn) {
+  <app-book
+    [book]="b"></app-book>
+}
