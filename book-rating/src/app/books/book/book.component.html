@@ -5,7 +5,7 @@
     <div class="card-title">
       <h2>
         {{ book().title }}
-        <span class="badge bg-secondary">{{ book().rating }}</span>
+        <app-rating [value]="book().rating" />
       </h2>
     </div>
     <p>{{ book().description }}</p>

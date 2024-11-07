@@ -1,15 +1,16 @@
 import { Component, input, output } from '@angular/core';
 import { Book } from '../shared/book';
+import { RatingComponent } from "../rating/rating.component";
 
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [],
+  imports: [RatingComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })
 export class BookComponent {
-  // Input: hier fließen Daten von der Elternkomponente hineinfließen
+  // Input: hier fließen Daten von der Elternkomponente hinein
   // von oben nach unten
   // mit `input()` Ergebnis als Signal
   book = input.required<Book>();
