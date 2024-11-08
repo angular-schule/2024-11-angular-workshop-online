@@ -16,6 +16,9 @@ export class BookComponent {
   // mit `input()` Ergebnis als Signal
   book = input.required<Book>();
 
+  minRating = input(0);
+  maxRating = input(10);
+
   // Output: hier fließen Daten zur Elternkomponente hinaus
   // von unten nach oben
   rateUp = output<Book>();
