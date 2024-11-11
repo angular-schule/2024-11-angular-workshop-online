@@ -1,6 +1,9 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Book } from '../shared/book';
+import { BookStoreService } from '../shared/book-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-create',
@@ -10,6 +13,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './book-create.component.scss'
 })
 export class BookCreateComponent {
+  private bs = inject(BookStoreService);
+  private router = inject(Router);
+
   bookForm = new FormGroup({
     isbn: new FormControl('', {
       nonNullable: true,
@@ -58,6 +64,16 @@ export class BookCreateComponent {
 
 
   submitForm() {
+    if (this.bookForm.invalid) {
+      return;
+    }
+
+    const newBook: Book = this.bookForm.getRawValue();
+
+    this.bs.create(newBook).subscribe((receivedBook) => {
+      this.router.navigate(['/books', receivedBook.isbn]);
+    });
+
     /*
     TODO
     - wenn Formular invalid, dann Button deaktivieren

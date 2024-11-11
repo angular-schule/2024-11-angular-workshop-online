@@ -34,7 +34,7 @@
     <input type="number" class="form-control" id="priceInput" [formControl]="c.price">
   </div>
 
-  <button type="submit" class="btn btn-green">Abschicken</button>
+  <button type="submit" class="btn btn-green" [disabled]="bookForm.invalid">Abschicken</button>
 </form>
 
 
