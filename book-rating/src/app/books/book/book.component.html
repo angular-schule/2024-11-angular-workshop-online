@@ -13,6 +13,7 @@
 
     <button type="button" class="btn btn-green" (click)="doRateUp()" [disabled]="book().rating >= maxRating()"> + </button>
     <button type="button" class="btn btn-red" (click)="doRateDown()" [disabled]="book().rating<= minRating()"> – </button>
+    <button type="button" class="btn btn-yellow" (click)="doDelete()">🗑️ Löschen</button>
 
     <a [routerLink]="['/books', book().isbn]">Details</a>
 <!--    <a routerLink="/books/123">Details</a>
