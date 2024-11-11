@@ -46,4 +46,24 @@ export class BookCreateComponent {
       ]
     }),
   });
+
+  isInvalid(control: FormControl): boolean {
+    return control.invalid && control.touched;
+  }
+
+  hasError(control: FormControl, errorCode: string): boolean {
+    // prüfen, ob das Control den bestimmten Fehler besitzt
+    return control.hasError(errorCode) && control.touched;
+  }
+
+
+  submitForm() {
+    /*
+    TODO
+    - wenn Formular invalid, dann Button deaktivieren
+    - this.bookForm: Wert auslesen => Buch
+    - HTTP Buch anlegen
+    - wegnavigieren, z.B. zur Detailseite
+    */
+  }
 }
