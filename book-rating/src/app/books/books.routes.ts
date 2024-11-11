@@ -5,8 +5,8 @@ import { BookCreateComponent } from "./book-create/book-create.component";
 import { BookSearchComponent } from "./book-search/book-search.component";
 
 export const booksRoutes: Routes = [
-  { path: 'books', component: DashboardComponent },
-  { path: 'books/create', component: BookCreateComponent },
-  { path: 'books/search', component: BookSearchComponent },
-  { path: 'books/:isbn', component: BookDetailsComponent },
+  { path: '', component: DashboardComponent },
+  { path: 'create', component: BookCreateComponent },
+  { path: 'search', component: BookSearchComponent },
+  { path: ':isbn', component: BookDetailsComponent },
 ];
