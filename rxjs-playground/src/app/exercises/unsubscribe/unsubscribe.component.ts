@@ -22,13 +22,16 @@ export class UnsubscribeComponent implements OnDestroy {
    *
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
-  private destroy$ = new Subject<void>();
+  // private destroy$ = new Subject<void>();
 
   constructor() {
     const interval$ = timer(0, 1000);
 
+    // Alternative: AsyncPipe, toSignal()
+
     interval$.pipe(
-      takeUntil(this.destroy$)
+      // takeUntil(this.destroy$)
+      takeUntilDestroyed()
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
@@ -37,7 +40,7 @@ export class UnsubscribeComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
+    // this.destroy$.next();
   }
 
   log(msg: string | number) {
