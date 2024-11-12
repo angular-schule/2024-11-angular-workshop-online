@@ -1,9 +1,25 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, isFormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { Router } from '@angular/router';
+
+const passwordValidator: ValidatorFn = (ctrl: AbstractControl) => {
+  if (!isFormGroup(ctrl)) {
+    return null;
+  }
+
+  const pw1 = ctrl.get('pw1')?.value;
+  const pw2 = ctrl.get('pw2')?.value;
+
+  if (pw1 === pw2) {
+    return null;
+  } else {
+    return { password: true }
+  }
+}
+
 
 @Component({
   selector: 'app-book-create',
@@ -51,6 +67,22 @@ export class BookCreateComponent {
         Validators.min(0)
       ]
     }),
+    /*password: new FormGroup({
+      pw1: new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(6)
+        ]
+      }),
+      pw2: new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(6)
+        ]
+      })
+    }, { validators: [passwordValidator] })*/
   });
 
   isInvalid(control: FormControl): boolean {
