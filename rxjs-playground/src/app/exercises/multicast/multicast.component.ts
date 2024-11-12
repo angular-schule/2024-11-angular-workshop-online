@@ -11,7 +11,7 @@ import { HistoryComponent } from '../../shared/history/history.component';
   imports: [HistoryComponent, AsyncPipe, DecimalPipe]
 })
 export class MulticastComponent implements OnDestroy {
-  
+
   private mvs = inject(MeasureValuesService);
 
   listeners = signal<number[]>([]);
@@ -23,7 +23,7 @@ export class MulticastComponent implements OnDestroy {
 
   constructor() {
     /**************!!**************/
-    this.measureValues$ = this.mvs.getValues();
+    this.measureValues$ = this.mvs.getValues().pipe(share());
     /**************!!**************/
 
   }

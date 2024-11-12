@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { fromEvent, map, startWith, debounceTime } from 'rxjs';
+import { fromEvent, map, startWith, debounceTime, of } from 'rxjs';
 
 @Component({
   templateUrl: './fromevent.component.html',
@@ -18,10 +18,15 @@ export class FromeventComponent {
      * Entprelle den Eventstrom, damit nicht zu viele Events gefeuert werden.
      */
 
+
     /******************************/
 
-    fromEvent<{ target: Window }>(window, 'resize').subscribe(e => {
-      console.log(e);
+    fromEvent<{ target: Window }>(window, 'resize').pipe(
+      debounceTime(1000),
+      map(e => e.target.innerWidth),
+      startWith(window.innerWidth),
+    ).subscribe(width => {
+      this.currentWidth.set(width);
     });
 
     /******************************/
