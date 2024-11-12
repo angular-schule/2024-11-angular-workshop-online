@@ -25,6 +25,23 @@ export class CreatingComponent {
     /******************************/
 
 
+    // of('Stuttgart', 'Leipzig', 'Hamburg')
+    // from([1,2,3,4,5])
+    // interval(1000)         // ---0---1---2---3---4---5 ...
+    // timer(3000)            // ---------0|
+    // timer(3000, 1000)      // ---------0---1---2---3---4---5 ...
+    // timer(0, 1000)         // 0---1---2---3---4---5 ...
+
+    timer(0, 1000).subscribe({
+      next: e => this.log(e),
+      complete: () => this.log('COMPLETE')
+    });
+
+
+
+    /******************************/
+
+    // Producer: generiert die Daten und spielt sie an den Subscriber aus
     function producer(sub: Subscriber<number>) {
       const result = Math.random();
       sub.next(result);
@@ -36,6 +53,7 @@ export class CreatingComponent {
       setTimeout(() => sub.complete(), 4000)
     }
 
+    // Observer: Konsument der Daten
     const obs: Observer<number> = {
       next: (value: number) => console.log(value),
       error: (err: any) => console.error(err),
@@ -44,8 +62,34 @@ export class CreatingComponent {
 
     //producer(obs);
 
+    // Observable: Schnittstelle zwischen Producer und Observer
     const myObs$ = new Observable(producer);
-    myObs$.subscribe(obs);
+
+    // beim subscribe() übergeben wir den Observer, der die Daten empfangen soll
+    // myObs$.subscribe(obs);
+
+
+    const myObs2$ = new Observable<number>(sub => {
+      const intervalId = setInterval(() => {
+        sub.next(Math.random());
+        console.log('interval');
+      }, 1000);
+
+      // Teardown Logic: wird ausgeführt, wenn unsubscribe ausgeführt wird
+      return () => {
+        console.log('TEARDOWN');
+        clearInterval(intervalId);
+      };
+    });
+
+    /*const subscription = myObs2$.subscribe({
+      next: e => console.log('SUB', e)
+    });*/
+
+
+    /*setTimeout(() => {
+      subscription.unsubscribe()
+    }, 6000)*/
 
 
 
