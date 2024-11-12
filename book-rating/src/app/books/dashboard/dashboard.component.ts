@@ -1,20 +1,26 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookComponent } from '../book/book.component';
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [BookComponent],
+  imports: [BookComponent, DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
   books = signal<Book[]>([]);
   private rs = inject(BookRatingService);
   private bs = inject(BookStoreService);
+
+  d = signal(Date.now());
+  private dateInterval = setInterval(() => {
+    this.d.set(Date.now());
+  }, 1000);
 
   constructor() {
     this.bs.getAll().subscribe((receivedBooks) => {
@@ -55,5 +61,9 @@ export class DashboardComponent {
         }
       });
     });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.dateInterval);
   }
 }
