@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Subject, ReplaySubject, Observable, map, mergeAll, mergeMap, concatMap, switchMap, exhaustMap } from 'rxjs';
+import { Subject, ReplaySubject, Observable, map, mergeAll, mergeMap, concatMap, switchMap, exhaustMap, interval, of } from 'rxjs';
 
 import { HistoryComponent } from '../../shared/history/history.component';
 import { EchoService } from './echo.service';
@@ -32,7 +32,18 @@ export class HigherorderComponent {
     /**************!!**************/
 
     this.result$ = this.source$.pipe(
+      mergeMap(tier => this.es.echo(tier))
     );
+
+    /*const result$ = interval(1000).pipe(
+      mergeMap(() => {
+        if (Math.random() < 0.5) {
+          return of('A', 'B');
+        } else {
+          return of(1,2,3);
+        }
+      })
+    )*/
 
     /**************!!**************/
 
