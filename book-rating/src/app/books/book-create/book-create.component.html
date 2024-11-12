@@ -34,10 +34,10 @@
     <input type="number" class="form-control" id="priceInput" [formControl]="c.price">
   </div>
 
-  <div [formGroup]="c.password">
+  <!--<div [formGroup]="c.password">
     <input type="text" [formControl]="c.password.controls.pw1">
     <input type="text" formControlName="pw2">
-  </div>
+  </div>-->
 
   <button type="submit" class="btn btn-green" [disabled]="bookForm.invalid">Abschicken</button>
 </form>
