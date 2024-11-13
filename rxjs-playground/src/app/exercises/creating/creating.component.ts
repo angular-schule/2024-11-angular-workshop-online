@@ -42,7 +42,7 @@ export class CreatingComponent {
     });*/
 
 
-    /*of(
+    of(
       { city: 'Leipzig' },
       { name: 'Ferdinand' },
       { city: 'Berlin', name: 'Franz' },
@@ -54,7 +54,7 @@ export class CreatingComponent {
     ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
-    });*/
+    });
 
 
 

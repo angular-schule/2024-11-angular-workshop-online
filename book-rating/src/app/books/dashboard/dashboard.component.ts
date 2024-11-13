@@ -4,6 +4,10 @@ import { BookComponent } from '../book/book.component';
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
 import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { BookActions } from '../store/book.actions';
+import { map } from 'rxjs';
+import { selectBooks } from '../store/book.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,9 +17,11 @@ import { DatePipe } from '@angular/common';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnDestroy {
-  books = signal<Book[]>([]);
+  private store = inject(Store);
   private rs = inject(BookRatingService);
   private bs = inject(BookStoreService);
+
+  books = this.store.selectSignal(selectBooks);
 
   d = signal(Date.now());
   private dateInterval = setInterval(() => {
@@ -23,19 +29,23 @@ export class DashboardComponent implements OnDestroy {
   }, 1000);
 
   constructor() {
-    this.bs.getAll().subscribe((receivedBooks) => {
+    this.store.dispatch(BookActions.loadBooks());
+
+    /*this.bs.getAll().subscribe((receivedBooks) => {
       this.books.set(receivedBooks);
-    });
+    });*/
   }
 
   doRateUp(book: Book) {
-    const ratedBook = this.rs.rateUp(book);
-    this.updateList(ratedBook);
+    this.store.dispatch(BookActions.rateUp({ book }));
+    // const ratedBook = this.rs.rateUp(book);
+    // this.updateList(ratedBook);
   }
 
   doRateDown(book: Book) {
-    const ratedBook = this.rs.rateDown(book);
-    this.updateList(ratedBook);
+    this.store.dispatch(BookActions.rateDown({ book }));
+    // const ratedBook = this.rs.rateDown(book);
+    // this.updateList(ratedBook);
   }
 
   doDelete(book: Book) {
@@ -44,7 +54,7 @@ export class DashboardComponent implements OnDestroy {
       // this.books.update(books => books.filter(b => b.isbn !== book.isbn));
 
       // Liste neu laden
-      this.bs.getAll().subscribe(books => this.books.set(books));
+      // this.bs.getAll().subscribe(books => this.books.set(books));
     })
   }
 
@@ -52,7 +62,7 @@ export class DashboardComponent implements OnDestroy {
     // [1,2,3,4,5,6,7,8,9].filter(e => e < 5); // [1,2,3,4]
     // [1,2,3,4,5,6].map(e => e * 10) // [10, 20, 30, 40, 50, 60]
 
-    this.books.update((currentBooks) => {
+    /*this.books.update((currentBooks) => {
       return currentBooks.map((book) => {
         if (book.isbn === ratedBook.isbn) {
           return ratedBook;
@@ -60,7 +70,7 @@ export class DashboardComponent implements OnDestroy {
           return book;
         }
       });
-    });
+    });*/
   }
 
   ngOnDestroy() {
