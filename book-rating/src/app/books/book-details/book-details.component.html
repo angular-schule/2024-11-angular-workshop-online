@@ -1,4 +1,4 @@
-@if (book$ | async; as b) {
+@if (book(); as b) {
   <h2>{{ b.title }}</h2>
   <p>ISBN: {{ b.isbn }}</p>
   <p>{{ b.description }}</p>
