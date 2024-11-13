@@ -26,13 +26,13 @@ export class ErrorhandlingComponent {
 
         // Fehler weiterwerfen
         // return throwError(() => 'FEHLER!');
-        throw 'Böser Fehler!! 🐒';
+        // throw 'Böser Fehler!! 🐒';
 
         // Fehler ersetzen
         // return of('Nichts passiert!', '🦊');
 
         // Fehler ignorieren
-        // return EMPTY;
+        return EMPTY;
       })
     ).subscribe({
       next: e => this.logStream$.next(e),

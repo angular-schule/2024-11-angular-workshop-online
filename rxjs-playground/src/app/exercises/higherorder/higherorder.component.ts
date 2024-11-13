@@ -32,7 +32,7 @@ export class HigherorderComponent {
     /**************!!**************/
 
     this.result$ = this.source$.pipe(
-      mergeMap(tier => this.es.echo(tier))
+      exhaustMap(tier => this.es.echo(tier))
     );
 
     /*const result$ = interval(1000).pipe(

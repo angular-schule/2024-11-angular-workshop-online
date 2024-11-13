@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, scan, reduce } from 'rxjs';
 import { HistoryComponent } from '../../shared/history/history.component';
 
 @Component({
@@ -33,13 +33,28 @@ export class CreatingComponent {
     // timer(0, 1000)         // 0---1---2---3---4---5 ...
 
 
-    timer(0, 1000).pipe(
+    /*timer(0, 1000).pipe(
       map(e => e * 3),
       filter(e => e % 2 === 0)
     ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
-    });
+    });*/
+
+
+    /*of(
+      { city: 'Leipzig' },
+      { name: 'Ferdinand' },
+      { city: 'Berlin', name: 'Franz' },
+      { language: 'DE' },
+      { foo: 'bar' },
+      { city: 'Hamburg' },
+    ).pipe(
+      scan((acc, item) => ({ ...acc, ...item }), {})
+    ).subscribe({
+      next: e => this.log(e),
+      complete: () => this.log('COMPLETE')
+    });*/
 
 
 
