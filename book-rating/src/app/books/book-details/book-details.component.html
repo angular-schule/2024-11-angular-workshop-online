@@ -1,3 +1,5 @@
+<button class="btn btn-red" (click)="reload$.next()">Reload</button>
+
 @if (book(); as b) {
   <h2>{{ b.title }}</h2>
   <p>ISBN: {{ b.isbn }}</p>

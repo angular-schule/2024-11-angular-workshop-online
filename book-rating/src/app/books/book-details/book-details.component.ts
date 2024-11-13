@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookStoreService } from '../shared/book-store.service';
-import { map, switchMap } from 'rxjs';
+import { map, merge, Subject, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -15,9 +15,23 @@ export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
   private bs = inject(BookStoreService);
 
-  book = toSignal(this.route.paramMap.pipe(
-    map(params => params.get('isbn')!),
-    switchMap(isbn => this.bs.getSingle(isbn))
-  ));
+  reload$ = new Subject<void>();
+
+  isbnFromReload$ = this.reload$.pipe(
+    map(() => this.route.snapshot.paramMap.get('isbn')!)
+  );
+
+  isbnFromRoute$ = this.route.paramMap.pipe(
+    map(params => params.get('isbn')!)
+  );
+
+  book = toSignal(
+    merge(
+      this.isbnFromReload$,
+      this.isbnFromRoute$
+    ).pipe(
+      switchMap(isbn => this.bs.getSingle(isbn))
+    )
+  );
 
 }
