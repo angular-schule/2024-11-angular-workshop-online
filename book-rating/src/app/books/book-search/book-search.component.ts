@@ -2,7 +2,7 @@ import { Component, inject, Signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Book } from '../shared/book';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, filter, startWith, switchMap, switchMapTo } from 'rxjs';
+import { debounceTime, filter, of, startWith, switchMap, switchMapTo } from 'rxjs';
 import { BookStoreService } from '../shared/book-store.service';
 
 @Component({
@@ -17,8 +17,14 @@ export class BookSearchComponent {
   searchControl = new FormControl('', { nonNullable: true });
 
   results = toSignal(this.searchControl.valueChanges.pipe(
-    filter(value => value.length >= 3),
+    // filter(value => value.length >= 3),
     debounceTime(500),
-    switchMap(value => this.bs.search(value)),
+    switchMap(value => {
+      if (value.length >= 3) {
+        return this.bs.search(value)
+      } else {
+        return of([]);
+      }
+    }),
   ), { initialValue: [] });
 }
