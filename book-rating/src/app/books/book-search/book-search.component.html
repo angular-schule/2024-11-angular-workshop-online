@@ -1,3 +1,9 @@
 <div class="form-group">
   <input type="search" class="form-control" [formControl]="searchControl">
 </div>
+
+<ul>
+@for (b of results(); track b.isbn) {
+  <li>{{ b.title }}</li>
+}
+</ul>
