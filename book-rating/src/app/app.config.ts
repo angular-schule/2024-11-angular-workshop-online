@@ -16,6 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideEffects()
+    provideEffects(),
+
+    provideState(bookFeature),
+    provideEffects(BookEffects)
 ]
 };
